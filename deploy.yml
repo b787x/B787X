@@ -1,0 +1,32 @@
+name: Deploy JAR
+
+on:
+  push:
+    branches:
+      - main # 此处修改为你的默认分支名称
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+    # 检出代码
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # 设置 JDK 环境
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+
+    # 构建 JAR 文件
+    - name: Build JAR
+      run: ./gradlew clean build
+
+    # 部署 JAR 文件
+    - name: Deploy JAR
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build/libs/
