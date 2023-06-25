@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的表白</title>
+  <style>
+    body {
+      background-color: #111;
+      font-family: Arial, sans-serif;
+    }
+    
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #fff;
+    }
+    
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+    }
+    
+    .love-message {
+      font-size: 24px;
+      line-height: 1.5;
+      margin-bottom: 40px;
+    }
+    
+    .button {
+      display: inline-block;
+      padding: 10px 30px;
+      background-color: #ff0080;
+      color: #fff;
+      font-size: 18px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    
+    .button:hover {
+      background-color: #ff0055;
+    }
+    
+    canvas {
+      position: absolute;
+      pointer-events: none;
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    
+    @keyframes neon {
+      0% {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff0080, 0 0 70px #ff0080, 0 0 80px #ff0080, 0 0 100px #ff0080, 0 0 150px #ff0080;
+      }
+      50% {
+        text-shadow: none;
+      }
+      100% {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff0080, 0 0 70px #ff0080, 0 0 80px #ff0080, 0 0 100px #ff0080, 0 0 150px #ff0080;
+      }
+    }
+    
+    .neon-text {
+      animation: neon 1.5s infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="neon-text">亲爱的刘思源，我爱你！</h1>
+    <div class="love-message">
+      <p>你是我生命中最重要的人，我想告诉你我对你的爱，无论发生什么，我都会一直陪在你身边。爱你哟。</p>
+      <p>请你接受我的表白吧！</p>
+    </div>
+    <a class="button" href="javascript:void(0);" onclick="fireworks()">我也爱你</a>
+  </div>
+  <canvas id="fireworks"></canvas>
+  <script>
+    // 创建烟花效果
+    function fireworks() {
+      const canvas = document.getElementById('fireworks');
+      const ctx = canvas.getContext('2d');
+      const particles = [];
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      class Particle {
+        constructor(x, y, hue) {
+          this.x = x;
+          this.y = y;
+          this.size = Math.random() * 8 + 1;
+          this.speedX = Math.random() * 6 - 3;
+          this.speedY = Math.random() * -15 - 5;
+          this.hue = hue;
+          this.alpha = 1;
+          this.distance = Math.random() * 80 + 150; // 烟花升空的距离
+        }
+
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          this.speedY += 0.1;
+          this.alpha -= 0.01;
+
+          if (this.size > 0.1) {
+            this.size -= 0.1;
+          }
+        }
+
+        draw() {
+          ctx.fillStyle = `hsla(${this.hue}, 100%, 50%, ${this.alpha})`;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+
+      function handleParticles() {
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+
+          if (particles[i].alpha <= 0.01) {
+            particles.splice(i, 1);
+            i--;
+          }
+        }
+      }
+      
+      // 创建烟花爆炸效果
+      function createFirework() {
+        const x = Math.random() * canvas.width;
+        const y = canvas.height;
+        const hue = Math.random() * 360;
+      
+        for (let i = 0; i < 70; i++) {
+          particles.push(new Particle(x, y, hue));
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        handleParticles();
+        requestAnimationFrame(animate);
+      }
+
+      function launchFirework() {
+        createFirework();
+        setTimeout(launchFirework, Math.random() * 2000 + 1000); // 之后再次发射烟花的间隔时间
+      }
+
+      animate();
+      launchFirework();
+    }
+  </script>
+</body>
+</html>
