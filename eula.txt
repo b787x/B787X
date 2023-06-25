@@ -1,8 +1,0 @@
-<<<<<<< HEAD
-#By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).
-#Fri Mar 10 22:26:43 HKT 2023
-=======
-#By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).
-#Fri Mar 10 22:26:43 HKT 2023
->>>>>>> e0c47246c55fa99c876c790240ca093d483f071a
-eula=true
