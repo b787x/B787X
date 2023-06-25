@@ -205,8 +205,7 @@
       const messageElement = document.getElementById("message");
       const returnButton = document.getElementById("return-button");
 
-      const randomIndex = Math.floor(Math.random() * confessionStyles.length);
-      const confessionText = confessionStyles[randomIndex].replace("{name}", name);
+      const confessionText = generateConfession(name);
 
       messageElement.innerHTML = `<p class="confession-text">${confessionText}</p>`;
       messageContainer.style.display = "flex";
@@ -214,6 +213,13 @@
       
       document.getElementById("input-container").style.display = "none";
       localStorage.setItem("confessionText", confessionText);
+    }
+
+    function generateConfession(name) {
+      let randomIndex = Math.floor(Math.random() * confessionStyles.length);
+      let confessionText = confessionStyles[randomIndex].replace("{name}", name);
+
+      return confessionText;
     }
 
     function goToWall() {

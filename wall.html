@@ -3,43 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>表白墙</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>表白墙 - 查看表白</title>
+  <style>
+    body {
+      background-color: black;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    #message-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    .message {
+      color: white;
+      font-size: 24px;
+      margin-bottom: 20px;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    #return-button {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 150px;
+      height: 40px;
+      font-size: 18px;
+      background-color: #ff4081;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <h1>表白墙</h1>
-  
-  <!-- 在这里显示生成的句子 -->
-  <div id="confession-container"></div>
-
-  <button id="return-button" onclick="goToInput()">重新输入</button>
-  <button id="back-button" onclick="goToIndex()">回到首页</button>
+  <div id="message-container"></div>
+  <button id="return-button" onclick="goToIndex()">返回</button>
 
   <script>
-    window.onload = function() {
-      const confessionTexts = JSON.parse(localStorage.getItem("confessionTexts"));
-
-      if (confessionTexts && confessionTexts.length > 0) {
-        const container = document.getElementById("confession-container");
-
-        for (let i = 0; i < confessionTexts.length; i++) {
-          const confessionElement = document.createElement("p");
-          confessionElement.innerText = confessionTexts[i];
-          container.appendChild(confessionElement);
-        }
+    function displayConfessions() {
+      const confessionText = localStorage.getItem("confessionText");
+      
+      if (confessionText) {
+        const messageContainer = document.getElementById("message-container");
+        
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("message");
+        messageElement.textContent = confessionText;
+        
+        messageContainer.appendChild(messageElement);
       } else {
-        alert("没有找到存储的句子，请重新输入！");
-        goToInput();
+        const messageContainer = document.getElementById("message-container");
+        
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("message");
+        messageElement.textContent = "没有找到表白内容";
+        
+        messageContainer.appendChild(messageElement);
       }
-    };
-
-    function goToInput() {
-      window.location.href = "index.html";
+      
+      const allMessages = document.getElementsByClassName("message");
+      for (let i = 0; i < allMessages.length; i++) {
+        allMessages[i].style.animationDelay = `${i * 0.5}s`;
+      }
     }
 
     function goToIndex() {
       window.location.href = "index.html";
     }
+
+    displayConfessions();
   </script>
 </body>
 </html>
