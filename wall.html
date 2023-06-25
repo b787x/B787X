@@ -1,34 +1,44 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>表白墙 - 查看表白</title>
+  <title>Cool Styles</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
     body {
-      background-color: black;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
+      background: linear-gradient(to right, #ff4081, #00bcd4);
+      background-size: 200% 200%;
+      animation: gradientBackground 10s ease infinite;
+      font-family: 'Montserrat', sans-serif;
     }
-    #message-container {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
+
+    @keyframes gradientBackground {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
     }
+
     .message {
       color: white;
-      font-size: 24px;
+      font-size: 28px;
       margin-bottom: 20px;
       animation: blink 1s infinite;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
+
     @keyframes blink {
       0% { opacity: 1; }
-      50% { opacity: 0; }
+      50% { opacity: 0.5; }
       100% { opacity: 1; }
     }
+
     #return-button {
       position: fixed;
       bottom: 20px;
@@ -40,46 +50,25 @@
       color: white;
       border: none;
       cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #return-button:hover {
+      background-color: #ff6699;
     }
   </style>
 </head>
 <body>
-  <div id="message-container"></div>
-  <button id="return-button" onclick="goToIndex()">返回</button>
+  <div class="message">
+    这是一个炫酷的样式示例！
+  </div>
+
+  <button id="return-button">返回</button>
 
   <script>
-    function displayConfessions() {
-      const confessionText = localStorage.getItem("confessionText");
-      
-      if (confessionText) {
-        const messageContainer = document.getElementById("message-container");
-        
-        const messageElement = document.createElement("div");
-        messageElement.classList.add("message");
-        messageElement.textContent = confessionText;
-        
-        messageContainer.appendChild(messageElement);
-      } else {
-        const messageContainer = document.getElementById("message-container");
-        
-        const messageElement = document.createElement("div");
-        messageElement.classList.add("message");
-        messageElement.textContent = "没有找到表白内容";
-        
-        messageContainer.appendChild(messageElement);
-      }
-      
-      const allMessages = document.getElementsByClassName("message");
-      for (let i = 0; i < allMessages.length; i++) {
-        allMessages[i].style.animationDelay = `${i * 0.5}s`;
-      }
-    }
-
-    function goToIndex() {
-      window.location.href = "index.html";
-    }
-
-    displayConfessions();
+    document.getElementById("return-button").addEventListener("click", function() {
+      window.history.back();
+    });
   </script>
 </body>
 </html>
