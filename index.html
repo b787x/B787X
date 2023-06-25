@@ -33,7 +33,6 @@
     #input-text {
       color: white;
       font-size: 24px;
-      animation: blink 1s infinite;
     }
     #name-input {
       margin-top: 10px;
@@ -86,9 +85,13 @@
     }
 
     @keyframes blink {
-      0% { opacity: 0; }
-      50% { opacity: 1; }
-      100% { opacity: 0; }
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .blinking {
+      animation: blink 1s infinite;
     }
   </style>
 </head>
@@ -96,14 +99,14 @@
   <canvas id="particle-canvas"></canvas>
   <h1>表白墙</h1>
   <div id="input-container">
-    <p id="input-text">请输入你的表白对象</p>
+    <p id="input-text" class="blinking">请输入你的表白对象</p>
     <input type="text" id="name-input" placeholder="在这里输入对象的名字">
     <button id="start-button" onclick="startConfession()">开始表白</button>
   </div>
   <div id="message-container" style="display: none;">
     <div id="message"></div>
   </div>
-  <button id="return-button" style="display: none;" onclick="goToWall()">查看所有表白</button>
+  <button id="return-button" style="display: none;" onclick="goToWall()">查看表白</button>
 
   <script>
     // 星星粒子效果
@@ -115,7 +118,7 @@
       canvas.height = window.innerHeight;
 
       const particles = [];
-      const particleCount = Math.floor(window.innerWidth / 8);
+      const particleCount = Math.floor((canvas.width * canvas.height) / 10000);
 
       class Particle {
         constructor() {
@@ -179,59 +182,42 @@
       "和你在一起，每一天都是幸福的。",
       "亲爱的{name}，请给我一个机会，让我陪你走到永远。",
       "和你在一起的时光是我最幸福的时光，亲爱的{name}。",
+      "{name}，你使我的世界变得完美。",
+      "无论发生什么，我都会一直守护着你，亲爱的{name}。",
+      "亲爱的{name}，你是我生活中的一切。",
+      "我愿意为你付出一切，亲爱的{name}。",
+      "{name}，和你在一起的每一刻都让我感到无比幸福。",
+      "亲爱的{name}，你的笑容是我心中永恒的阳光。",
+      "{name}，我希望能与你携手共度余生。",
+      "亲爱的{name}，你是我心中的宝藏。",
+      "和你在一起的每一天都是独特而美好的，亲爱的{name}。"
     ];
-    let confessionMessages = [];
 
     function startConfession() {
-      const nameInput = document.getElementById("name-input");
-      const name = nameInput.value.trim();
+      const name = document.getElementById("name-input").value.trim();
+      
       if (name === "") {
-        alert("请输入对象的名字！");
+        alert("请输入对象的名字");
         return;
       }
 
-      const inputContainer = document.getElementById("input-container");
       const messageContainer = document.getElementById("message-container");
-      const messageText = document.getElementById("message");
-
-      inputContainer.style.display = "none";
-      messageContainer.style.display = "flex";
-
-      confessionStyles = shuffleArray(confessionStyles);
-      confessionMessages = [
-        confessionStyles[0].replace(/{name}/g, name)
-      ];
-
-      messageText.innerHTML = "";
-      messageText.innerHTML += "<p class='confession-text'>" + confessionMessages[0] + "</p>";
-
+      const messageElement = document.getElementById("message");
       const returnButton = document.getElementById("return-button");
+
+      const randomIndex = Math.floor(Math.random() * confessionStyles.length);
+      const confessionText = confessionStyles[randomIndex].replace("{name}", name);
+
+      messageElement.innerHTML = `<p class="confession-text">${confessionText}</p>`;
+      messageContainer.style.display = "flex";
       returnButton.style.display = "block";
-    }
-
-    function generateConfession() {
-      const messageText = document.getElementById("message");
-      const nameInput = document.getElementById("name-input");
-      const name = nameInput.value.trim();
-
-      const randomConfessionStyle = confessionStyles[Math.floor(Math.random() * confessionStyles.length)];
-      const confessionMessage = randomConfessionStyle.replace(/{name}/g, name);
-      confessionMessages.push(confessionMessage);
-
-      messageText.innerHTML += "<p class='confession-text'>" + confessionMessage + "</p>";
+      
+      document.getElementById("input-container").style.display = "none";
+      localStorage.setItem("confessionText", confessionText);
     }
 
     function goToWall() {
-      window.location.href = "/wall.html";
-    }
-
-    // 随机打乱数组顺序
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
+      window.open("wall.html");
     }
   </script>
 </body>

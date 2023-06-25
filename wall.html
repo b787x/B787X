@@ -4,68 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>表白墙</title>
-  <style>
-    body {
-      background-color: black;
-      margin: 0;
-      padding: 0;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
-    h1 {
-      text-align: center;
-      font-size: 36px;
-      margin-top: 30px;
-    }
-    #confession-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-top: 50px;
-    }
-    .confession-text {
-      text-align: center;
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-    #return-button {
-      width: 150px;
-      height: 40px;
-      font-size: 18px;
-      background-color: #ff4081;
-      color: white;
-      border: none;
-      cursor: pointer;
-      margin-top: 30px;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
   <h1>表白墙</h1>
-  <div id="confession-container">
-    <!-- 这里使用 JavaScript 动态生成表白内容 -->
-  </div>
-  <button id="return-button" onclick="goBack()">返回</button>
+  
+  <!-- 在这里显示生成的句子 -->
+  <div id="confession-container"></div>
+
+  <button id="return-button" onclick="goToInput()">重新输入</button>
+  <button id="back-button" onclick="goToIndex()">回到首页</button>
 
   <script>
-   
-    const confessionMessages = [
-      
-    ];
+    window.onload = function() {
+      const confessionTexts = JSON.parse(localStorage.getItem("confessionTexts"));
 
-    const confessionContainer = document.getElementById("confession-container");
+      if (confessionTexts && confessionTexts.length > 0) {
+        const container = document.getElementById("confession-container");
 
-    for (let i = 0; i < confessionMessages.length; i++) {
-      const confessionText = document.createElement("p");
-      confessionText.className = "confession-text";
-      confessionText.innerText = confessionMessages[i];
-      confessionContainer.appendChild(confessionText);
+        for (let i = 0; i < confessionTexts.length; i++) {
+          const confessionElement = document.createElement("p");
+          confessionElement.innerText = confessionTexts[i];
+          container.appendChild(confessionElement);
+        }
+      } else {
+        alert("没有找到存储的句子，请重新输入！");
+        goToInput();
+      }
+    };
+
+    function goToInput() {
+      window.location.href = "index.html";
     }
 
-    // 返回上一页
-    function goBack() {
-      window.history.back();
+    function goToIndex() {
+      window.location.href = "index.html";
     }
   </script>
 </body>
