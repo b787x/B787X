@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表白墙</title>
+  <style>
+    body {
+      background-color: black;
+      margin: 0;
+      padding: 0;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      margin-top: 30px;
+    }
+    #confession-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 50px;
+    }
+    .confession-text {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    #return-button {
+      width: 150px;
+      height: 40px;
+      font-size: 18px;
+      background-color: #ff4081;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>表白墙</h1>
+  <div id="confession-container">
+    <!-- 这里使用 JavaScript 动态生成表白内容 -->
+  </div>
+  <button id="return-button" onclick="goBack()">返回</button>
+
+  <script>
+   
+    const confessionMessages = [
+      
+    ];
+
+    const confessionContainer = document.getElementById("confession-container");
+
+    for (let i = 0; i < confessionMessages.length; i++) {
+      const confessionText = document.createElement("p");
+      confessionText.className = "confession-text";
+      confessionText.innerText = confessionMessages[i];
+      confessionContainer.appendChild(confessionText);
+    }
+
+    // 返回上一页
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+</body>
+</html>
